@@ -1,0 +1,103 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp31
+{
+    class Program
+    {
+        enum GeometricalFigure
+        {
+            None = 0,
+            Circle = 1,
+            EquilateralTriangle = 2,
+            Rectangle = 3,
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Введите тип фигуры(1 круг, 2 равносторонний треугольник, 3 прямоугольник).");
+            int number;
+            try
+            {
+                number = int.Parse(Console.ReadLine());
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Неправильный ввод, повторите");
+                number = int.Parse(Console.ReadLine());
+            }
+            GeometricalFigure figure = GeometricalFigure.None;
+            switch (number)
+            {
+                case 1:
+                    figure = GeometricalFigure.Circle;
+                    break;
+                case 2:
+                    figure = GeometricalFigure.EquilateralTriangle;
+                    break;
+                case 3:
+                    figure = GeometricalFigure.Rectangle;
+                    break;
+                default:
+                    Console.WriteLine("Неверный ввод");
+                    break;
+            }
+            try
+            {
+                switch (figure)
+                {
+                    case GeometricalFigure.Circle:
+                        Console.WriteLine("Введите диаметр круга:");
+                        double d = double.Parse(Console.ReadLine());
+                        if (d <= 0)
+                        {
+                            throw new Exception();
+                        }
+                        double SCircle = Math.Pow(d, 2) * Math.PI;
+                        double PCircle = d / 2 * Math.PI;
+                        Console.WriteLine($"Площадь поверхности:{SCircle}\nДлина периметра:{PCircle}");
+                        break;
+                    case GeometricalFigure.EquilateralTriangle:
+                        Console.WriteLine("Введите длину стороны:");
+                        double c = double.Parse(Console.ReadLine());
+                        if (c <= 0)
+                        {
+                            throw new Exception();
+                        }
+                        double STriangle = Math.Pow(c, 2) * Math.Pow(3, 1 / 2) / 4;
+                        double PTriangle = 3 * c;
+                        Console.WriteLine($"Площадь поверхности:{STriangle}\nДлина периметра:{PTriangle}");
+                        break;
+                    case GeometricalFigure.Rectangle:
+                        Console.WriteLine("Введите длину прямоугольника:");
+                        double a = double.Parse(Console.ReadLine());
+                        Console.WriteLine("Введите ширину прямоугольника:");
+                        double b = double.Parse(Console.ReadLine());
+                        if (a <= 0 | b <=0)
+                        {
+                            throw new Exception();
+                        }
+                        double SRectangle = a * b;
+                        double PRectangle = (a + b) * 2;
+                        Console.WriteLine($"Площадь поверхности:{SRectangle}\nДлина периметра:{PRectangle}");
+                        break;
+
+                }
+            }
+            catch (FormatException e ) 
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Введено число меньше нуля или равное ему.");
+            }
+            
+            Console.WriteLine("Нажмите на любую клавишу для выхода из консоли.");
+            Console.ReadLine();
+        }
+    }
+}
+
