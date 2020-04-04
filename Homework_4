@@ -1,0 +1,65 @@
+using System;
+
+namespace NS_Homework4
+{
+    class Program
+    {
+        [Flags]
+        enum container : byte
+        {
+            None = 0,
+            OneLitre = 0b00000001,
+            FiveLitres = 0b00000010,
+            TwentyLiters = 0b00000100,
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Какой объем сока (в литрах) требуется упаковать?\n(Дробную часть вводить через запятую.) ");
+            double UserInput = Math.Ceiling(Convert.ToDouble(Console.ReadLine()));
+
+            int oneLitre;
+            int twentyLitres;
+            int fiveLitres;
+
+            twentyLitres = (int)UserInput / 20;
+            UserInput = UserInput % 20;
+            fiveLitres = (int)UserInput / 5;
+            UserInput = UserInput % 5;
+            oneLitre = (int)UserInput;
+
+            var check = 0;
+
+            if (twentyLitres > 0)
+            {
+                check = check | (int)container.TwentyLiters;
+                if ((check & (int)container.TwentyLiters) != 0)
+                {
+                    Console.WriteLine($"1 л.: {twentyLitres} шт.");
+                }
+            }
+            if (fiveLitres > 0)
+            {
+                check = check | (int)container.FiveLitres;
+                if ((check & (int)container.FiveLitres) != 0)
+                {
+                    Console.WriteLine($"5 л.: {fiveLitres} шт.");
+                }
+            }
+            if (oneLitre > 0)
+            {
+                check = check | (int)container.OneLitre;
+                if ((check & (int)container.OneLitre) != 0)
+                {
+                    Console.WriteLine($"20 л.: {oneLitre} шт.");
+                }
+            }
+       
+            if ((twentyLitres == 0) || (twentyLitres == 0) || (twentyLitres == 0))
+            {
+                Console.WriteLine("Вам не нужны контейнеры.");
+            }
+            Console.WriteLine("Нажмите на любую клавишу для выхода.");
+            Console.ReadLine();
+        }
+    }
+}
