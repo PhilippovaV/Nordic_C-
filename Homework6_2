@@ -1,0 +1,122 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NS_Homework6_2
+{
+    class Program
+    {
+        /// <summary>
+        /// Метод получает от пользователя сумму первоначального взноса и 
+        /// обрабатывает все предсказуемые исключения для введенного значения.
+        /// </summary>
+        /// <returns></returns>
+        static double GetDeposit()
+        {
+            double deposit;
+            try
+            {
+                deposit = int.Parse(Console.ReadLine());
+                if (deposit < 0)
+                {
+                    while (deposit < 0)
+                    {
+                        Console.WriteLine("Извините, но сумма первоначального взноса должна быть не меньше нуля.");
+                        Console.WriteLine("Пожалуйста, введите другую сумму первоначального взноса");
+                        deposit = int.Parse(Console.ReadLine());
+                    }
+                }
+                return deposit;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Введено неверное значение! Попробуйте ещё раз:");
+                deposit = GetDeposit();
+                return deposit;
+            }
+        }
+        /// <summary>
+        /// Метод получает от пользователя ежедневный процент дохода и 
+        /// обрабатывает все предсказуемые исключения для введенного значения.
+        /// </summary>
+        /// <returns></returns>
+        static double GetPercentage()
+        {
+            double percentage;
+            try
+            {
+                percentage = double.Parse(Console.ReadLine());
+                if (percentage <= 0)
+                {
+                    throw new OverflowException("Введено значение, привышающие верхнуюю границу лимита. Попробуйте ещё раз:");
+                }
+                return percentage;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Введено неверное значение! Попробуйте ещё раз:");
+                percentage = GetPercentage();
+                return percentage;
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Введено неверное значение! Попробуйте ещё раз:");
+                percentage = GetPercentage();
+                return percentage;
+            }
+        }
+        /// <summary>
+        /// Метод получает от пользователя  желаемую сумму накопления и 
+        /// обрабатывает все предсказуемые исключения для введенного значения.
+        /// </summary>
+        /// <returns></returns>
+        static int GetAccumulation(double deposit)
+        {
+            int accumulation;
+            //double deposit = GetDouble();
+            try
+            {
+                accumulation = int.Parse(Console.ReadLine());
+                if (accumulation <= deposit)
+                {
+                    while (accumulation <= deposit)
+                    {
+                        Console.WriteLine("Желаемая сумма накопления меньше, чем сумма первоначального взноса или равна ему.");
+                        Console.WriteLine("Пожалуйста, введите другую желаемую сумму накпления");
+                        accumulation = int.Parse(Console.ReadLine());
+                    }
+                }
+                return accumulation;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Введено неверное значение! Попробуйте ещё раз:");
+                accumulation = GetAccumulation(deposit);
+                return accumulation;
+            }
+        }
+
+
+        static void Main(string[] args)
+        {
+           Console.WriteLine("Введите сумму первоначального взноса в рублях:");
+            double deposit = GetDeposit();
+            Console.WriteLine("Введите ежедневный процент дохода в виде десятичной дроби (1% = 0,01):");
+            double percentage = GetPercentage();
+            Console.WriteLine("Введите желаемую сумму накопления в рублях:");
+            int accumulation = GetAccumulation(deposit);
+            int day = 0;
+            do
+            {
+                deposit += deposit * percentage;
+                day += 1;
+            }
+            while (deposit < accumulation);
+            Console.WriteLine($"Необходимое количество дней для накопления желаемой суммы: {day}.");
+            Console.WriteLine("Нажмите любую клавишу для выхода...");
+            Console.ReadKey(); 
+        }
+    }
+}
