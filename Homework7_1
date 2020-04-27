@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NS_Homework7_1
+{
+    class Program
+    {
+        static string[] GetText()
+        {
+            string text;
+            try
+            {
+                string[] words;
+
+                text = Console.ReadLine();
+                if (text.Length <= 1)
+                {
+                    throw new FormatException("Кто вообще вводит пустую строку?!\nТак, давай попробуем еще...");
+                }
+
+                foreach (char a in text)
+                {
+                    if (Char.IsDigit(a)) throw new FormatException("Давай без цифр, друг");
+                }
+                words = text.Split(' ');
+
+                if (words.Length <= 1)
+                {
+                    throw new FormatException("Слишком мало слов, поднатужся и напиши еще!");
+                }
+
+                return words;
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine(e.Message);
+                string[] words = GetText();
+                return words;
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Введите строку из нескольких слов:");
+            string[] words = GetText();
+            int Starts_With_A = 0;
+            foreach (string word in words)
+            {
+                if (word.StartsWith("А") || word.StartsWith("а") == true)
+                {
+                    Starts_With_A++;
+                }
+
+            }
+            Console.WriteLine($"Слов начинающихся на 'А': {Starts_With_A} ");
+            Console.ReadLine();
+        }
+    }
+}
+
